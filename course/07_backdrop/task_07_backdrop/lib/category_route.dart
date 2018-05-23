@@ -8,6 +8,9 @@ import 'category.dart';
 import 'category_tile.dart';
 import 'unit.dart';
 
+import 'backdrop.dart';
+import 'unit_converter.dart';
+
 final _backgroundColor = Colors.green[100];
 
 /// Category Route (screen).
@@ -27,6 +30,10 @@ class CategoryRoute extends StatefulWidget {
 class _CategoryRouteState extends State<CategoryRoute> {
   // TODO: Keep track of a default [Category], and the currently-selected
   // [Category]
+  Category _defaultCategory;
+  Category _currentCategory;
+  Backdrop _backdrop;
+  
   final _categories = <Category>[];
   static const _categoryNames = <String>[
     'Length',
@@ -86,11 +93,17 @@ class _CategoryRouteState extends State<CategoryRoute> {
         units: _retrieveUnitList(_categoryNames[i]),
       ));
     }
+    _defaultCategory = _categories.singleWhere((category) => category.name == 'Length');
+    _currentCategory = _defaultCategory;
   }
 
   // TODO: Fill out this function
   /// Function to call when a [Category] is tapped.
-  void _onCategoryTap(Category category) {}
+  void _onCategoryTap(Category category) {
+    setState(() {
+          _currentCategory = category;
+        });
+  }
 
   /// Makes the correct number of rows for the list view.
   ///
@@ -121,7 +134,7 @@ class _CategoryRouteState extends State<CategoryRoute> {
   @override
   Widget build(BuildContext context) {
     // TODO: Import and use the Backdrop widget
-    final listView = Container(
+    /* final listView = Container(
       color: _backgroundColor,
       padding: EdgeInsets.symmetric(horizontal: 8.0),
       child: _buildCategoryWidgets(),
@@ -143,6 +156,17 @@ class _CategoryRouteState extends State<CategoryRoute> {
     return Scaffold(
       appBar: appBar,
       body: listView,
+    ); */
+
+    Widget listView = new Padding(padding: new EdgeInsets.only(bottom: 48.0),
+    child: _buildCategoryWidgets(),);
+
+    return Backdrop(
+      currentCategory: _currentCategory,
+      frontPanel: UnitConverter(category: _currentCategory,),
+      frontTitle: Text('Unit Converter'),
+      backPanel: listView,
+      backTitle: Text('Select a Category'),
     );
   }
 }
