@@ -5,8 +5,10 @@
 import 'package:flutter/material.dart';
 
 // TODO: Check if we need to import anything
+import 'package:task_03_category_route/category.dart';
 
 // TODO: Define any constants
+Color _backgroundColor = Colors.green[100];
 
 /// Category Route (screen).
 ///
@@ -45,14 +47,24 @@ class CategoryRoute extends StatelessWidget {
     // TODO: Create a list of the eight Categories, using the names and colors
     // from above. Use a placeholder icon, such as `Icons.cake` for each
     // Category. We'll add custom icons later.
+    List<Category> _categories = new List();
+    for (var i = 0; i < _categoryNames.length; i++) {
+      _categories.add(new Category(name: _categoryNames[i], color: _baseColors[i], iconLocation: Icons.cake,));
+    }
 
     // TODO: Create a list view of the Categories
-    final listView = Container();
+    final listView = new ListView(
+      children: _categories,
+    );
 
     // TODO: Create an App Bar
-    final appBar = AppBar();
+    final appBar = new AppBar(
+      title: new Text("Unit Converter"),
+      backgroundColor: _backgroundColor,
+    );
 
     return Scaffold(
+      backgroundColor: _backgroundColor,
       appBar: appBar,
       body: listView,
     );
