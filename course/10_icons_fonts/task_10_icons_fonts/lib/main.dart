@@ -30,6 +30,7 @@ class UnitConverterApp extends StatelessWidget {
         textTheme: Theme.of(context).textTheme.apply(
               bodyColor: Colors.black,
               displayColor: Colors.grey[600],
+              fontFamily: 'Raleway'
             ),
         // This colors the [InputOutlineBorder] when it is selected
         primaryColor: Colors.grey[500],
