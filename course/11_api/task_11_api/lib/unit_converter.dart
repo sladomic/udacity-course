@@ -10,6 +10,7 @@ import 'package:meta/meta.dart';
 
 import 'category.dart';
 import 'unit.dart';
+import 'api.dart';
 
 const _padding = EdgeInsets.all(16.0);
 
@@ -103,10 +104,23 @@ class _UnitConverterState extends State<UnitConverter> {
 
   // TODO: If in the Currency [Category], call the API to retrieve the conversion.
   // Remember, the API call is an async function.
-  void _updateConversion() {
+  void _updateConversion() async {
+    final apiCategory = 'currency';
+    double _apiValue;
+    if (widget.category.name == apiCategory) {
+        _apiValue = await new Api().convert(
+            apiCategory,
+            _inputValue.toString(),
+            _fromValue.name.toString(),
+            _toValue.name.toString());
+    }
     setState(() {
-      _convertedValue =
-          _format(_inputValue * (_toValue.conversion / _fromValue.conversion));
+      if (widget.category.name == apiCategory) {
+        _convertedValue = _format(_apiValue);
+      } else {
+        _convertedValue = _format(
+            _inputValue * (_toValue.conversion / _fromValue.conversion));
+      }
     });
   }
 

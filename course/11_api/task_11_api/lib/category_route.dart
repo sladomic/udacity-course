@@ -13,6 +13,7 @@ import 'category.dart';
 import 'category_tile.dart';
 import 'unit.dart';
 import 'unit_converter.dart';
+import 'api.dart';
 
 /// Loads in unit conversion data, and displays the data.
 ///
@@ -93,6 +94,7 @@ class _CategoryRouteState extends State<CategoryRoute> {
     if (_categories.isEmpty) {
       await _retrieveLocalCategories();
       // TODO: Call _retrieveApiCategory() here
+      await _retrieveApiCategory();
     }
   }
 
@@ -130,7 +132,20 @@ class _CategoryRouteState extends State<CategoryRoute> {
 
   // TODO: Add the Currency Category retrieved from the API, to our _categories
   /// Retrieves a [Category] and its [Unit]s from an API on the web
-  Future<void> _retrieveApiCategory() async {}
+  Future<void> _retrieveApiCategory() async {
+    String _name = 'currency';
+    final units = await new Api().getUnits(_name);
+
+    var category = Category(
+      name: _name[0].toUpperCase() + _name.substring(1),
+      units: units,
+      color: _baseColors.last,
+      iconLocation: _icons.last,
+    );
+    setState(() {
+      _categories.add(category);
+    });
+  }
 
   /// Function to call when a [Category] is tapped.
   void _onCategoryTap(Category category) {
